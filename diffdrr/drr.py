@@ -149,7 +149,7 @@ def forward(
     if parameterization is None:
         pose = args[0]
     else:
-        pose = convert(*args, parameterization=parameterization, convention=convention)
+        pose = convert(*args, parameterization=parameterization, convention=convention)     # 这里可以得到一个变换矩阵T，其中平移是在旋转之后的坐标系上进行平移的
 
     # Create the source / target points and render the image
     source, target = self.detector(pose, calibration)
@@ -170,7 +170,7 @@ def render(
     img = (target - source).norm(dim=-1).unsqueeze(1)
 
     # Convert rays to voxelspace
-    source = self.affine_inverse(source)
+    source = self.affine_inverse(source)        # affine是把体素索引转成世界坐标，affine_inverse作用相反，这里是把世界坐标转成像素坐标
     target = self.affine_inverse(target)
 
     # Render the image

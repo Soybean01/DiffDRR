@@ -10,11 +10,10 @@ from diffdrr.visualization import plot_drr
 
 # Read in the volume and get its origin and spacing in world coordinates
 subject = load_example_ct()
-subject.plot()
 # subject['volume'].plot()
 
 # Initialize the DRR module for generating synthetic X-rays
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 drr = DRR(
     subject,     # An object storing the CT volume, origin, and voxel spacing
     sdd=1020.0,  # Source-to-detector distance (i.e., focal length)

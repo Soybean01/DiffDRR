@@ -49,7 +49,7 @@ class Detector(torch.nn.Module):
 
         # Create a calibration matrix that holds the detector's intrinsic parameters
         self.register_buffer(
-            "_calibration",
+            "_calibration",             # 这个就是内参矩阵，用于把像素坐标转换成为物理坐标
             torch.tensor(
                 [
                     [dely, 0, 0, -y0],
@@ -128,9 +128,9 @@ def _initialize_carm(self: Detector):
     s = torch.arange(-self.width // 2, self.width // 2, device=device) + w_off
     if self.reverse_x_axis:
         s = -s
-    coefs = torch.cartesian_prod(t, s).reshape(-1, 2)
-    target = torch.einsum("cd,nc->nd", basis, coefs)
-    target += center
+    coefs = torch.cartesian_prod(t, s).reshape(-1, 2)       # 笛卡尔积
+    target = torch.einsum("cd,nc->nd", basis, coefs)        # 可以得到平面中均匀散列的点
+    target += center                                        # 至此，得到一个平面上均匀散列的点，以center为中心，再xy平面上的均匀散列的点
 
     # Add a batch dimension to the source and target so multiple poses can be passed at once
     source = source.unsqueeze(0)
@@ -150,7 +150,7 @@ from .pose import RigidTransform
 def forward(self: Detector, extrinsic: RigidTransform, calibration: RigidTransform):
     """Create source and target points for X-rays to trace through the volume."""
     if calibration is None:
-        target = self.calibration(self.target)
+        target = self.calibration(self.target)          # 这里相当于把target从平面上均匀散列点的像素坐标，转换成物理坐标
     else:
         target = calibration(self.target)
     pose = self.reorient.compose(extrinsic)
