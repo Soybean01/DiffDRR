@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/home/tianyabin/Project/IM/DiffDRR')
+
 import matplotlib.pyplot as plt
 import torch
 
@@ -7,9 +10,10 @@ from diffdrr.visualization import plot_drr
 
 # Read in the volume and get its origin and spacing in world coordinates
 subject = load_example_ct()
+subject.plot()
 
 # Initialize the DRR module for generating synthetic X-rays
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 drr = DRR(
     subject,     # An object storing the CT volume, origin, and voxel spacing
     sdd=1020.0,  # Source-to-detector distance (i.e., focal length)
@@ -19,7 +23,7 @@ drr = DRR(
 
 # Set the camera pose with rotations (yaw, pitch, roll) and translations (x, y, z)
 rotations = torch.tensor([[0.0, 0.0, 0.0]], device=device)
-translations = torch.tensor([[0.0, 1000.0, 0.0]], device=device)
+translations = torch.tensor([[0.0, -1000.0, 0.0]], device=device)
 
 # 📸 Also note that DiffDRR can take many representations of SO(3) 📸
 # For example, quaternions, rotation matrix, axis-angle, etc...
