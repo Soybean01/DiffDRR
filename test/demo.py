@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/home/tianyabin/Project/IM/DiffDRR')
+
 import matplotlib.pyplot as plt
 import torch
 
@@ -7,6 +10,8 @@ from diffdrr.visualization import plot_drr
 
 # Read in the volume and get its origin and spacing in world coordinates
 subject = load_example_ct()
+subject.plot()
+# subject['volume'].plot()
 
 # Initialize the DRR module for generating synthetic X-rays
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
