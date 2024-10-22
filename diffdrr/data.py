@@ -86,18 +86,18 @@ def read(
         # Rotates the C-arm about the x-axis by 90 degrees
         # Rotates the C-arm about the z-axis by -90 degrees
         reorient = torch.tensor(
-            # [
-            #     [0.0, 1.0, 0.0, 0.0],
-            #     [0.0, 0.0, -1.0, 0.0],
-            #     [-1.0, 0.0, 0.0, 0.0],
-            #     [0.0, 0.0, 0.0, 1.0],
-            # ]
             [
-                [1.0, 0.0, 0.0, 0.0],
-                [0.0, 0.0, -1.0, 0.0],
                 [0.0, 1.0, 0.0, 0.0],
+                [0.0, 0.0, -1.0, 0.0],
+                [-1.0, 0.0, 0.0, 0.0],
                 [0.0, 0.0, 0.0, 1.0],
             ]
+            # [
+            #     [1.0, 0.0, 0.0, 0.0],
+            #     [0.0, 0.0, -1.0, 0.0],
+            #     [0.0, 1.0, 0.0, 0.0],
+            #     [0.0, 0.0, 0.0, 1.0],
+            # ]
         )
     elif orientation == "PA":
         # Rotates the C-arm about the x-axis by 90 degrees

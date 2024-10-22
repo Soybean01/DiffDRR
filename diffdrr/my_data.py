@@ -20,13 +20,15 @@ from vtkmodules.vtkRenderingVolume import vtkVolumeOutlineSource
 
 # %% ../notebooks/api/03_data.ipynb 5
 def load_example_ct(
+    datadir=None,
     labels=None,
     orientation="AP",
     bone_attenuation_multiplier=1.0,
     **kwargs,
 ) -> Subject:
     """Load an example chest CT for demonstration purposes."""
-    datadir = '/home/tianyabin/Project/IM/dataset/4DCT/1/00'
+    if datadir == None:
+        datadir = '/home/tianyabin/Project/IM/dataset/4DCT/1/00'
     volume = ScalarImage(datadir)
     if orientation == "AP":
         # Rotates the C-arm about the x-axis by 90 degrees
