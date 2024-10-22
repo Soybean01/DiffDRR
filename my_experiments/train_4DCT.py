@@ -146,9 +146,11 @@ def train(
     loss_save = []
     for epoch in range(n_epochs + 1):
         losses = []
+        phase_number = torch.randint(0, 10, (1,))                                                       # 这里是对每个epoch重新选择数据
+        specimen, isocenter_pose, transforms, drr = load(id_number, phase_number, height, sdd, device)  # 这里是对每个epoch重新选择数据
         for _ in (itr := tqdm(range(n_batches_per_epoch), leave=False)):
-            phase_number = torch.randint(0, 10, (1,))                                                           # 这里是每次都进行变化
-            specimen, isocenter_pose, transforms, drr = load(id_number, phase_number, height, sdd, device)      # 这里是每次都进行变化
+            phase_number = torch.randint(0, 10, (1,))                                                           
+            specimen, isocenter_pose, transforms, drr = load(id_number, phase_number, height, sdd, device)      
             contrast = contrast_distribution.sample().item()                                # DRR对比度
             offset = get_random_offset(batch_size, device)                                  # 生成ΔT
             pose = isocenter_pose.compose(offset)                                           # 生成T，这个就是标签
