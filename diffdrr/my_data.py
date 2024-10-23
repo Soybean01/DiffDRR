@@ -52,7 +52,8 @@ def load_example_ct(
     density = ScalarImage(tensor=density, affine=volume.affine)
     subject = Subject(
         volume=volume,
-        reorient=reorient,mask=None,
+        reorient=reorient,
+        mask=None,
         density=density,
         fiducials=None,
         **kwargs,
